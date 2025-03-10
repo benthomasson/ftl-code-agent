@@ -35,7 +35,7 @@ from smolagents.agent_types import (
     handle_agent_output_types,
 )
 from smolagents.memory import MemoryStep
-from ftl_doc_agent.memory import ActionStep
+from ftl_code_agent.memory import ActionStep
 
 
 def pull_messages_from_step(

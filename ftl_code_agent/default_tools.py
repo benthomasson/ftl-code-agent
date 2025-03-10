@@ -1,7 +1,7 @@
 from smolagents.tools import Tool
-from ftl_doc_agent.tools import get_json_schema
-from ftl_doc_agent.local_python_executor import FinalAnswerException
-from ftl_doc_agent.tools import _convert_type_hints_to_json_schema
+from ftl_code_agent.tools import get_json_schema
+from ftl_code_agent.local_python_executor import FinalAnswerException
+from ftl_code_agent.tools import _convert_type_hints_to_json_schema
 
 import re
 import json

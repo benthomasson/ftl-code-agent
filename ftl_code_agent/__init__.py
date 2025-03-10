@@ -4,7 +4,7 @@ from smolagents.tools import Tool
 from .tools import load_tools, get_tool, load_code
 from .default_tools import TOOLS
 from dataclasses import dataclass
-from ftl_doc_agent.local_python_executor import FinalAnswerException
+from ftl_code_agent.local_python_executor import FinalAnswerException
 
 
 class Tools(object):

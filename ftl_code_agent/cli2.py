@@ -2,18 +2,18 @@
 # -*- coding: utf-8 -*-
 
 import click
-from ftl_doc_agent.core import create_model, run_agent
-from ftl_doc_agent.util import get_functions
-from ftl_doc_agent.default_tools import TOOLS
-from ftl_doc_agent.tools import get_tool, load_code
-from ftl_doc_agent.codegen import (
+from ftl_code_agent.core import create_model, run_agent
+from ftl_code_agent.util import get_functions
+from ftl_code_agent.default_tools import TOOLS
+from ftl_code_agent.tools import get_tool, load_code
+from ftl_code_agent.codegen import (
     generate_python_header,
     reformat_python,
     generate_python_tool_call,
     generate_explain_header,
     generate_explain_action_step,
 )
-from ftl_doc_agent.memory import ActionStep
+from ftl_code_agent.memory import ActionStep
 from smolagents.agent_types import AgentText
 
 

@@ -1,4 +1,4 @@
-from ftl_doc_agent.agents import CodeAgent
+from ftl_code_agent.agents import CodeAgent
 from smolagents import LiteLLMModel
 import yaml
 import importlib.resources
@@ -14,7 +14,7 @@ def create_model(model_id, context=8192):
 
 def make_agent(tools, model):
     prompt_templates = yaml.safe_load(
-        importlib.resources.files("ftl_doc_agent.prompts").joinpath("code_agent.yaml").read_text()
+        importlib.resources.files("ftl_code_agent.prompts").joinpath("code_agent.yaml").read_text()
     )
     agent = CodeAgent(
         tools=tools,

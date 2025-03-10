@@ -8,7 +8,7 @@ from .codegen import (
     generate_explain_action_step,
     reformat_python,
 )
-from ftl_doc_agent.memory import ActionStep
+from ftl_code_agent.memory import ActionStep
 from smolagents.agent_types import AgentText
 from .util import get_functions, get_function_code
 import json

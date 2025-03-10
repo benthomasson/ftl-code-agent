@@ -1,5 +1,5 @@
 [project]
-name = "ftl-doc-agent"
+name = "ftl-code-agent"
 version = "0.1.2"
 dependencies = [
     "smolagents[litellm]==1.9.2",
@@ -12,17 +12,17 @@ dependencies = [
 ]
 
 [tool.setuptools]
-packages = ["ftl_doc_agent", "ftl_doc_agent.prompts"]
+packages = ["ftl_code_agent", "ftl_code_agent.prompts"]
 
 [build-system]
 requires = ["setuptools"]
 build-backend = "setuptools.build_meta"
 
 [project.scripts]
-ftl-doc-agent = "ftl_doc_agent.cli:main"
-ftl-doc-agent-ui = "ftl_doc_agent.ui:main"
-ftl-doc-agent2 = "ftl_doc_agent.cli2:main"
+ftl-code-agent = "ftl_code_agent.cli:main"
+ftl-code-agent-ui = "ftl_code_agent.ui:main"
+ftl-code-agent2 = "ftl_code_agent.cli2:main"
 
 [tool.setuptools.package-data]
-"ftl_doc_agent.prompts" = ["*.yaml"]
+"ftl_code_agent.prompts" = ["*.yaml"]
 

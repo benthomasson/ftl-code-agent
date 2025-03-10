@@ -12,8 +12,8 @@ from .codegen import (
     generate_explain_header,
 )
 
-from ftl_doc_agent.util import Bunch
-from ftl_doc_agent.Gradio_UI import stream_to_gradio
+from ftl_code_agent.util import Bunch
+from ftl_code_agent.Gradio_UI import stream_to_gradio
 
 
 def bot(context, prompt, messages, tools):
