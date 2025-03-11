@@ -22,4 +22,9 @@ complete()
     red = RedBaron(code)
     for o in red:
         print(o.name, o.type)
+        if o.type == "def" and o.name == "add":
+            target = o
 
+    assert target.value[0].type == "string"
+    target.value[0].help()
+    #assert False

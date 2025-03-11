@@ -102,8 +102,15 @@ The function:
             continue
         break
 
-    if target is None:
+    if found is None:
         raise Exception(f'function {function} not found in code blocks')
+
+    target.help()
+    if target.value[0].type != "string":
+        print('Adding in the docstring since it is missing.')
+        target.value.insert(0, f'"""\n{fn.__doc__}\n"""')
+    else:
+        print('found docstring')
 
     #red = RedBaron(function_code)
     #pprint(red.dumps())
