@@ -22,5 +22,4 @@ complete()
     red = RedBaron(code)
     for o in red:
         print(o.name, o.type)
-    assert False
 

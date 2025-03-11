@@ -27,9 +27,6 @@ class Complete(Tool):
             message: A completion message
         """
 
-        if not self.state["docstring"]:
-            raise Exception("Docstring was not updated.  Use docstring() to update it.")
-
         raise FinalAnswerException(message)
 
     description, inputs, output_type = get_json_schema(forward)

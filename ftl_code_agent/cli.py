@@ -11,7 +11,6 @@ from .codegen import (
 from ftl_code_agent.memory import ActionStep
 from smolagents.agent_types import AgentText
 from .util import get_functions, get_function_code
-import json
 
 from redbaron import RedBaron
 
@@ -32,45 +31,35 @@ def main(
     output,
     explain,
 ):
-    """An agent that updates code with docstrings"""
+    """An agent that writes code from docstrings"""
 
     tool_classes = {}
     tool_classes.update(TOOLS)
     model = create_model(model)
     state = {
-        'docstring': '',
         'func': None,
     }
 
-    tools = ['docstring', 'complete']
+    tools = ['complete']
 
     module, fns = get_functions(code_file)
 
     fn = state['func'] = getattr(module, function)
     function_code = get_function_code(fn)
 
-    prompt = f"""Given the defintion the following python function create a docstring that explains what the function does,
-what the arguments are, and what the function returns.  Update the code with new docstring using docstring() .
-Finally call complete when done.   Do not define the function again.  Use the Google-style docstring using 'Args:' and 'Returns:' like
-this:
-
-    Parses a Google-style docstring to extract the function description,
-    argument descriptions, and return description.
-
-    Args:
-        docstring: The docstring to parse.
-
-    Returns:
-        The function description, arguments, and return description.
+    prompt = f"""Given the following python function signature and docstring write the code
+    that implements the docstring.  Then call complete().
 
 The function:
 {function_code}
 
     """
 
-    print(prompt)
+    #print(prompt)
 
     generate_explain_header(explain, prompt)
+
+    code_blocks = []
 
     for o in run_agent(
         tools=[get_tool(tool_classes, t, state) for t in tools],
@@ -79,20 +68,52 @@ The function:
     ):
         if isinstance(o, ActionStep):
             generate_explain_action_step(explain, o)
+            if o.trace and o.tool_calls:
+                for call in o.tool_calls:
+                    code_blocks.append(call.arguments)
         elif isinstance(o, AgentText):
             print(o.to_string())
 
-    red = RedBaron(function_code)
-    pprint(red.dumps())
-    print(json.dumps(red.fst(), indent=4))
-    red.help()
-    print(state['docstring'])
-    red[0].value.insert(0, f'\n"""{state["docstring"]}"""\n')
-    pprint(red.dumps())
+    #print(code_blocks)
+    with open(code_file) as f:
+        red = RedBaron(f.read())
+
+    target = None
+    for o in red:
+        if o.name == function and o.type == "def":
+            target = o
+            break
+
+    if target is None:
+        raise Exception(f'function {function} not found in code')
+
+
+    found = False
+    for code_block in code_blocks:
+        #print(code_block)
+        red_fn = RedBaron(code_block)
+        #red_fn.help()
+        for o in red_fn:
+            if o.name == function and o.type == "def":
+                target.replace(o)
+                found = True
+                break
+        else:
+            continue
+        break
+
+    if target is None:
+        raise Exception(f'function {function} not found in code blocks')
+
+    #red = RedBaron(function_code)
+    #pprint(red.dumps())
+    #print(json.dumps(red.fst(), indent=4))
+    #red.help()
+    #print(state['docstring'])
+    #red[0].value.insert(0, f'\n"""{state["docstring"]}"""\n')
+    #pprint(red.dumps())
 
     with open(output, 'w') as f:
         f.write(red.dumps())
-        print(red.dumps())
-
 
     reformat_python(output)

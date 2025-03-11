@@ -50,7 +50,7 @@ def reformat_python(output):
 def generate_explain_header(explain, problem):
     with open(explain, "w") as f:
         if problem:
-            f.write("Problem: {problem}\n\n")
+            f.write(f"Problem: {problem}\n\n")
 
 
 def generate_explain_action_step(explain, o):
